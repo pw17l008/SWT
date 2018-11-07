@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -92,11 +93,8 @@ public class Customer_widow {
 				if (Character.isLowerCase(keyChar)) {
 					e.setKeyChar(Character.toUpperCase(keyChar));
 				}
-				//checking for aphabetical letters--alerts but the number stays
-				if (!(Character.isAlphabetic(keyChar))) {
-					JOptionPane.showMessageDialog(null, "Please only enter letters A-Z", "ALERT MESSAGE",
-							JOptionPane.WARNING_MESSAGE);
-				}
+				// checking for aphabetical letters--alerts but the number stays
+				validateInput(keyChar);
 			}
 
 		});
@@ -116,8 +114,8 @@ public class Customer_widow {
 				if (Character.isLowerCase(keyChar)) {
 					e.setKeyChar(Character.toUpperCase(keyChar));
 				}
-				
-				//checking for aphabetical letters-- alerst but numbers stays
+
+				// checking for aphabetical letters-- alerst but numbers stays
 				if (Character.isDigit(keyChar)) {
 					JOptionPane.showMessageDialog(null, "WRONG!");
 					lastName.setText("");
@@ -166,7 +164,9 @@ public class Customer_widow {
 				int month = monthChooser.getMonth();
 				int year = yearChooser.getValue();
 
-				dateConcat(day, month, year);
+				/* dateConcat(day, month, year); */
+
+				validateDate(day, month, year);
 			}
 		});
 
@@ -219,11 +219,38 @@ public class Customer_widow {
 		spinField.setMaximum(30);
 		spinField.setBounds(144, 224, 33, 26);
 		frame.getContentPane().add(spinField);
-
 	}
 
-	public void dateConcat(int day, int month, int year) {
-		System.out.println(day + "-" + month + "-" + year);
-	
+	public int validateInput(char keyChar) {
+		int correctOrNot = 0;
+		if (!(Character.isAlphabetic(keyChar))) {
+			JOptionPane.showMessageDialog(null, "Please only enter letters A-Z", "ALERT MESSAGE",
+					JOptionPane.WARNING_MESSAGE);
+			correctOrNot = 1;
+		}
+		System.out.println(correctOrNot);
+		return correctOrNot;
 	}
+
+	public static boolean validateDate(int day, int month, int year) {
+		String strDate = Integer.toString(day) + "/" + Integer.toString(month + 1) + "/" + Integer.toString(year);
+		if (strDate.trim().equals("")) {
+			return true;
+		} else {
+
+			SimpleDateFormat sdfrmt = new SimpleDateFormat("dd/MM/yyyy");
+			sdfrmt.setLenient(false);
+
+			try {
+				Date javaDate = sdfrmt.parse(strDate);
+				System.out.println(strDate + " is valid date format");
+			}
+			catch (ParseException e) {
+				System.out.println(strDate + " is Invalid Date format");
+				return false;
+			}
+			return true;
+		}
+	}
+
 }
