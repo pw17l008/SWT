@@ -234,23 +234,19 @@ public class Customer_widow {
 
 	public static boolean validateDate(int day, int month, int year) {
 		String strDate = Integer.toString(day) + "/" + Integer.toString(month + 1) + "/" + Integer.toString(year);
-		if (strDate.trim().equals("")) {
-			return true;
-		} else {
-
+		
 			SimpleDateFormat sdfrmt = new SimpleDateFormat("dd/MM/yyyy");
 			sdfrmt.setLenient(false);
 
 			try {
 				Date javaDate = sdfrmt.parse(strDate);
-				System.out.println(strDate + " is valid date format");
+				System.out.println(strDate + " is a valid date");
 			}
 			catch (ParseException e) {
-				System.out.println(strDate + " is Invalid Date format");
+				System.out.println(strDate + " is an invalid date");
 				return false;
 			}
 			return true;
 		}
-	}
 
 }
